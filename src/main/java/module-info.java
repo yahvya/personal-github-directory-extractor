@@ -6,4 +6,6 @@ module sabo.yahvya.githubdirectoryextractor {
     requires net.synedra.validatorfx;
 
     exports sabo.yahvya.githubdirectoryextractor;
+    exports sabo.yahvya.githubdirectoryextractor.views.utils;
+    exports sabo.yahvya.githubdirectoryextractor.views.views;
 }
