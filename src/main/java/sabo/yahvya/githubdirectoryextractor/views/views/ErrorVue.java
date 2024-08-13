@@ -23,7 +23,6 @@ public class ErrorVue implements AppVue{
 
     @Override
     public boolean loadContent() {
-        this.stage.show();
 
         return true;
     }

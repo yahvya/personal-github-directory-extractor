@@ -1,6 +1,8 @@
 package sabo.yahvya.githubdirectoryextractor;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourceLoader;
@@ -87,7 +89,22 @@ public class GithubDirectoryExtractorApplication extends Application {
         if(vue.addOnStackOnLoad())
             GithubDirectoryExtractorApplication.viewsStack.add(vue);
 
+        // ajout des styles globaux
+        Scene scene = onStage.getScene();
+
+        if(scene != null) {
+            GithubDirectoryExtractorApplication.appLogger.info("Ajout des css globaux");
+
+            ObservableList<String> stylesheets = scene.getStylesheets();
+
+            for(URL stylesheetUrl : GithubDirectoryExtractorApplication.getGlobalStyles()){
+                if(stylesheetUrl != null)
+                    stylesheets.add(stylesheetUrl.toString());
+            }
+        }
+
         GithubDirectoryExtractorApplication.appLogger.info(String.format("Vue <%s> chargée",vue));
+
         return true;
     }
 
@@ -127,5 +144,14 @@ public class GithubDirectoryExtractorApplication extends Application {
         catch(Exception e){
             return null;
         }
+    }
+
+    /**
+     * @return listes des css globaux de l'application
+     */
+    public static URL[] getGlobalStyles(){
+        return new URL[]{
+            GithubDirectoryExtractorApplication.appResourceLoader.getResource(ResourcesPath.STYLES_GLOBAL_APP.path)
+        };
     }
 }
