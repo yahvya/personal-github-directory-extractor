@@ -17,6 +17,7 @@ public enum ResourcesPath {
 
         // COMPOSANTS
         STYLES_COMPONENTS_APP_BUTTON("css/components/app-button.css"),
+        STYLES_COMPONENTS_INFO_TEXT("css/components/info-text.css"),
     ;
 
     /**

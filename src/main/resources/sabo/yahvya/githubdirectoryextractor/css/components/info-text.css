@@ -1,0 +1,10 @@
+.info-text-component{
+    -fx-background-color: -fx-theme-upper-color;
+    -fx-padding: 15px;
+    -fx-text-fill: -fx-theme-text-up-color;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-border-color: #f0f6fc1a;
+    -fx-font-size: 15px;
+    -fx-font-family: "Radio Canada Big","Arial","sans-serif";
+}

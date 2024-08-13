@@ -98,16 +98,7 @@ public class GithubDirectoryExtractorApplication extends Application {
      * @return liste des gestionnaires de log de l'application
      */
     public static Handler[] getLogHandlers(){
-        ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setFormatter(new SimpleFormatter(){
-            @Override
-            public synchronized String format(LogRecord record){
-                return this.formatMessage(record) + System.lineSeparator().repeat(2);
-            }
-        });
-
         return new Handler[]{
-            consoleHandler
         };
     }
 

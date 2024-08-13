@@ -2,7 +2,7 @@ package sabo.yahvya.githubdirectoryextractor.views.views;
 
 import javafx.stage.Stage;
 import sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication;
-import sabo.yahvya.githubdirectoryextractor.views.components.AppButtonComponent;
+import sabo.yahvya.githubdirectoryextractor.views.components.AppInfoText;
 
 /**
  * @brief Vue d'erreur
@@ -52,7 +52,7 @@ public class ErrorVue implements AppVue{
     @Override
     public boolean loadContent() {
         GithubDirectoryExtractorApplication.loadVue(
-            new ComponentTestVue(new AppButtonComponent("Valider")),
+            new ComponentTestVue(new AppInfoText(this.errorMessage)),
             this.stage
         );
 
