@@ -61,7 +61,8 @@ public class GithubDirectoryExtractorApplication extends Application {
             primaryStage.getIcons().add(appIconImage);
 
         // lancement de l'application
-        GithubDirectoryExtractorApplication.loadVue(new ExtractionVue(),primaryStage);
+        if(!GithubDirectoryExtractorApplication.loadVue(new ExtractionVue(),primaryStage))
+            GithubDirectoryExtractorApplication.loadVue(new ErrorVue(true,"Erreur","Une erreur s 'est produite lors du chargement de l'application"),primaryStage);
     }
 
     /**
@@ -76,13 +77,11 @@ public class GithubDirectoryExtractorApplication extends Application {
 
         if(!vue.configStage()){
             GithubDirectoryExtractorApplication.appLogger.warning(String.format("Echec de configuration de la vue <%s>",vue));
-            GithubDirectoryExtractorApplication.loadVue(new ErrorVue(),onStage);
             return false;
         }
 
         if(!vue.loadContent()){
             GithubDirectoryExtractorApplication.appLogger.warning(String.format("Echec de chargement du contenu de la vue <%s>",vue));
-            GithubDirectoryExtractorApplication.loadVue(new ErrorVue(),onStage);
             return false;
         }
 
