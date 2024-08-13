@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication;
+import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourcesPath;
 import sabo.yahvya.githubdirectoryextractor.views.components.Component;
 
 /**
@@ -51,6 +52,7 @@ public class ComponentTestVue implements AppVue{
 
         GithubDirectoryExtractorApplication.addGlobalStyles(scene);
         Component.addComponentRequiredStyles(this.component,scene);
+        AppVue.addVueRequiredStyles(this,scene);
 
         this.stage.setScene(scene);
         this.stage.setMaximized(true);
@@ -64,5 +66,12 @@ public class ComponentTestVue implements AppVue{
         this.stage = stage;
 
         return this;
+    }
+
+    @Override
+    public String[] getRequiredStyles() {
+        return new String[]{
+            ResourcesPath.STYLES_VIEWS_COMPONENT_TEST.path
+        };
     }
 }

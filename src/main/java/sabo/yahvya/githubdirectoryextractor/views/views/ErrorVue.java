@@ -2,6 +2,7 @@ package sabo.yahvya.githubdirectoryextractor.views.views;
 
 import javafx.stage.Stage;
 import sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication;
+import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourcesPath;
 import sabo.yahvya.githubdirectoryextractor.views.components.AppInfoText;
 
 /**
@@ -51,10 +52,7 @@ public class ErrorVue implements AppVue{
 
     @Override
     public boolean loadContent() {
-        GithubDirectoryExtractorApplication.loadVue(
-            new ComponentTestVue(new AppInfoText(this.errorMessage)),
-            this.stage
-        );
+
 
         return true;
     }
@@ -64,5 +62,12 @@ public class ErrorVue implements AppVue{
         this.stage = stage;
 
         return this;
+    }
+
+    @Override
+    public String[] getRequiredStyles() {
+        return new String[]{
+            ResourcesPath.STYLES_VIEWS_ERROR_TEXT.path
+        };
     }
 }
