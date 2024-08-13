@@ -1,6 +1,7 @@
 .root{
     -fx-background-color: -fx-theme-background-color;
     -fx-padding: 20px;
+    -fx-border-color: -fx-theme-special-light-color;
 }
 
 .error-title{

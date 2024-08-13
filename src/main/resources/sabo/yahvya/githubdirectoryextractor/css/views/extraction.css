@@ -1,0 +1,34 @@
+.root{
+    -fx-padding: 20px;
+    -fx-border-color: -fx-theme-special-light-color;
+    -fx-background-color: -fx-theme-background-color;
+}
+
+.extraction-container .extractor-title{
+    -fx-text-fill: -fx-theme-text-color;
+    -fx-font-size: 20px;
+    -fx-font-family: "Roboto","Arial","sans-serif";
+    -fx-font-weight: bold;
+}
+
+.extraction-container .extraction-elements-container{
+    -fx-border-color: -fx-theme-special-light-color;
+    -fx-padding: 4px;
+}
+
+.extraction-container .extraction-elements-container,
+.extraction-container .extraction-elements-container > .viewport{
+    -fx-background-color: -fx-theme-background-color;
+}
+
+.extraction-container .extraction-elements-container .scroll-bar:vertical{
+    -fx-background-color: -fx-theme-upper-color;
+}
+
+.extraction-container .extraction-elements-container .scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-theme-special-color;
+}
+
+.extraction-container .app-button-component{
+    -fx-font-size: 15px !important;
+}
