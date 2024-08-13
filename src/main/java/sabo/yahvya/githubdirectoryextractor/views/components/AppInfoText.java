@@ -29,6 +29,7 @@ public class AppInfoText implements Component{
     public Node build() {
         this.label = new Label(text);
         this.label.getStyleClass().add("info-text-component");
+        this.label.setWrapText(true);
 
         return this.label;
     }

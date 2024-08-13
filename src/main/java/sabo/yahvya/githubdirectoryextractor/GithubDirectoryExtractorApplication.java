@@ -2,8 +2,10 @@ package sabo.yahvya.githubdirectoryextractor;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourceLoader;
 import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourcesPath;
@@ -61,8 +63,13 @@ public class GithubDirectoryExtractorApplication extends Application {
             primaryStage.getIcons().add(appIconImage);
 
         // lancement de l'application
+        Rectangle2D bounds = Screen.getPrimary().getBounds();
+
+        primaryStage.setMaxWidth(bounds.getWidth());
+        primaryStage.setMaxHeight(bounds.getHeight());
+
         if(!GithubDirectoryExtractorApplication.loadVue(new ExtractionVue(),primaryStage))
-            GithubDirectoryExtractorApplication.loadVue(new ErrorVue(true,"Erreur","Une erreur s 'est produite lors du chargement de l'application"),primaryStage);
+            GithubDirectoryExtractorApplication.loadVue(new ErrorVue(true,"Erreur","Une erreur s 'est produite lors du chargement de l'application."),primaryStage);
     }
 
     /**
