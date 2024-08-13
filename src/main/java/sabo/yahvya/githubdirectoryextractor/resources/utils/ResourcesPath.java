@@ -13,7 +13,7 @@ public enum ResourcesPath {
     // STYLES
 
         // GLOBAL
-        STYLES_GLOBAL_APP("css/app/color-theme.css"),
+        STYLES_GLOBAL_APP("css/app/app.css"),
 
         // COMPOSANTS
         STYLES_COMPONENTS_APP_BUTTON("css/components/app-button.css"),

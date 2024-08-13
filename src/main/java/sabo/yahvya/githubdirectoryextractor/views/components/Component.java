@@ -3,6 +3,9 @@ package sabo.yahvya.githubdirectoryextractor.views.components;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication;
+
+import java.net.URL;
 
 /**
  * @brief Description des composants
@@ -33,12 +36,16 @@ public interface Component {
      * @param component composant
      * @param scene scene
      */
-    static void addComponentRequiredStyle(Component component, Scene scene){
+    static void addComponentRequiredStyles(Component component, Scene scene){
         ObservableList<String> styles = scene.getStylesheets();
 
         for(String stylesheetPath : component.getRequiredStyles()){
-            if(!styles.contains(stylesheetPath))
-                styles.add(stylesheetPath);
+            if(!styles.contains(stylesheetPath)){
+                URL url = GithubDirectoryExtractorApplication.appResourceLoader.getResource(stylesheetPath);
+
+                if(url != null)
+                    styles.add(url.toString());
+            }
         }
     }
 }

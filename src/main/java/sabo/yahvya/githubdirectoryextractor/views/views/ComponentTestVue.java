@@ -1,8 +1,10 @@
 package sabo.yahvya.githubdirectoryextractor.views.views;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication;
 import sabo.yahvya.githubdirectoryextractor.views.components.Component;
 
 /**
@@ -41,10 +43,14 @@ public class ComponentTestVue implements AppVue{
     public boolean loadContent() {
         HBox hbox = new HBox();
         Scene scene = new Scene(hbox);
+        Node node = this.component.build();
 
-        hbox.getChildren().add(this.component.build());
+        hbox.getChildren().add(node);
+        node.setTranslateX(50);
+        node.setTranslateY(50);
 
-        Component.addComponentRequiredStyle(this.component,scene);
+        GithubDirectoryExtractorApplication.addGlobalStyles(scene);
+        Component.addComponentRequiredStyles(this.component,scene);
 
         this.stage.setScene(scene);
         this.stage.setMaximized(true);

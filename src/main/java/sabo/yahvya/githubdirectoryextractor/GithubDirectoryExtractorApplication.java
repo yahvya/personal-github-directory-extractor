@@ -88,20 +88,6 @@ public class GithubDirectoryExtractorApplication extends Application {
         if(vue.addOnStackOnLoad())
             GithubDirectoryExtractorApplication.viewsStack.add(vue);
 
-        // ajout des styles globaux
-        Scene scene = onStage.getScene();
-
-        if(scene != null) {
-            GithubDirectoryExtractorApplication.appLogger.info("Ajout des css globaux");
-
-            ObservableList<String> stylesheets = scene.getStylesheets();
-
-            for(URL stylesheetUrl : GithubDirectoryExtractorApplication.getGlobalStyles()){
-                if(stylesheetUrl != null)
-                    stylesheets.add(stylesheetUrl.toString());
-            }
-        }
-
         GithubDirectoryExtractorApplication.appLogger.info(String.format("Vue <%s> chargée",vue));
 
         return true;
@@ -152,5 +138,20 @@ public class GithubDirectoryExtractorApplication extends Application {
         return new URL[]{
             GithubDirectoryExtractorApplication.appResourceLoader.getResource(ResourcesPath.STYLES_GLOBAL_APP.path)
         };
+    }
+
+    /**
+     * @brief Ajoute les styles globaux sur la scène
+     * @param scene scene
+     */
+    public static void addGlobalStyles(Scene scene){
+        GithubDirectoryExtractorApplication.appLogger.info("Ajout des css globaux");
+
+        ObservableList<String> stylesheets = scene.getStylesheets();
+
+        for(URL stylesheetUrl : GithubDirectoryExtractorApplication.getGlobalStyles()){
+            if(stylesheetUrl != null)
+                stylesheets.add(stylesheetUrl.toString());
+        }
     }
 }
