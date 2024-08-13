@@ -17,14 +17,14 @@ public class ErrorVue implements AppVue{
     }
 
     @Override
-    public boolean configStage(Stage stage) {
-        stage.setTitle("Une erreur s'est produite");
-
+    public boolean configStage() {
         return true;
     }
 
     @Override
     public boolean loadContent() {
+        this.stage.show();
+
         return true;
     }
 

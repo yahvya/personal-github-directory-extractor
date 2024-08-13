@@ -4,8 +4,10 @@ module sabo.yahvya.githubdirectoryextractor {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
+    requires java.logging;
 
     exports sabo.yahvya.githubdirectoryextractor;
     exports sabo.yahvya.githubdirectoryextractor.views.utils;
     exports sabo.yahvya.githubdirectoryextractor.views.views;
+    exports sabo.yahvya.githubdirectoryextractor.resources.utils;
 }

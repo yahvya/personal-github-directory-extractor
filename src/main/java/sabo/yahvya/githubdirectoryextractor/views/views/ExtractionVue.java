@@ -17,7 +17,7 @@ public class ExtractionVue implements AppVue{
     }
 
     @Override
-    public boolean configStage(Stage stage) {
+    public boolean configStage() {
         return false;
     }
 

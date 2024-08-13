@@ -13,10 +13,9 @@ public interface AppVue {
 
     /**
      * @brief Configure la fenêtre
-     * @param stage fenêtre à configurer
      * @return Si la configuration réussi
      */
-    public boolean configStage(Stage stage);
+    public boolean configStage();
 
     /**
      * @brief Charge de contenu stage
