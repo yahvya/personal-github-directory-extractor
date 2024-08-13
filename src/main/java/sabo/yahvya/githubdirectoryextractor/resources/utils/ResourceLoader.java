@@ -27,22 +27,17 @@ public class ResourceLoader<FromType> {
      * @return l'URL de la ressource ou NULL si non trouvée
      */
     public URL getResource(String resourcePath){
-        GithubDirectoryExtractorApplication.appLogger.entering(this.getClass().getName(),"getResource");
-
         try{
-            URL url = this.fromClass.getClassLoader().getResource(resourcePath);
+            URL url = this.fromClass.getResource(resourcePath);
 
             if(url == null)
-                GithubDirectoryExtractorApplication.appLogger.warning("\tRessource non trouvée");
+                GithubDirectoryExtractorApplication.appLogger.warning("Ressource non trouvée");
 
             return url;
         }
         catch(Exception e){
             GithubDirectoryExtractorApplication.appLogger.severe(String.format("Echec de chargement <%s>",e.getMessage()));
             return null;
-        }
-        finally {
-            GithubDirectoryExtractorApplication.appLogger.exiting(this.getClass().getName(),"getResource");
         }
     }
 }

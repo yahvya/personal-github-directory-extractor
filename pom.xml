@@ -87,7 +87,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                sabo.yahvya.githubdirectoryextractor/sabo.yahvya.githubdirectoryextractor.HelloApplication
+                                sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

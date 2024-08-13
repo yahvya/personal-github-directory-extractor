@@ -1,13 +1,16 @@
 package sabo.yahvya.githubdirectoryextractor;
 
 import javafx.application.Application;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourceLoader;
+import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourcesPath;
 import sabo.yahvya.githubdirectoryextractor.views.utils.ViewsStack;
 import sabo.yahvya.githubdirectoryextractor.views.views.AppVue;
 import sabo.yahvya.githubdirectoryextractor.views.views.ErrorVue;
 import sabo.yahvya.githubdirectoryextractor.views.views.ExtractionVue;
 
+import java.net.URL;
 import java.util.logging.*;
 
 /**
@@ -33,6 +36,7 @@ public class GithubDirectoryExtractorApplication extends Application {
     static {
         // pile de vue
         GithubDirectoryExtractorApplication.viewsStack = new ViewsStack();
+        GithubDirectoryExtractorApplication.appResourceLoader = new ResourceLoader<>(GithubDirectoryExtractorApplication.class);
 
         // gestionnaires de log
         GithubDirectoryExtractorApplication.appLogger = Logger.getLogger(GithubDirectoryExtractorApplication.class.getName());
@@ -48,8 +52,11 @@ public class GithubDirectoryExtractorApplication extends Application {
     public void start(Stage primaryStage){
         GithubDirectoryExtractorApplication.appLogger.info("Lancement de l'application");
 
-        // initialisation des ressources non statiques
-        GithubDirectoryExtractorApplication.appResourceLoader = new ResourceLoader<>(this.getClass());
+        // définition de l'icône
+        Image appIconImage = GithubDirectoryExtractorApplication.getAppIcon();
+
+        if(appIconImage != null)
+            primaryStage.getIcons().add(appIconImage);
 
         // lancement de l'application
         GithubDirectoryExtractorApplication.loadVue(new ExtractionVue(),primaryStage);
@@ -62,6 +69,7 @@ public class GithubDirectoryExtractorApplication extends Application {
      * @return si le chargement a réussi
      */
     public static boolean loadVue(AppVue vue,Stage onStage){
+        // configuration de la vue
         vue.setStage(onStage);
 
         if(!vue.configStage()){
@@ -99,5 +107,25 @@ public class GithubDirectoryExtractorApplication extends Application {
         return new Handler[]{
             consoleHandler
         };
+    }
+
+    /**
+     * @brief Fourni l'icône de l'application
+     * @return L'icône ou null en cas d'erreur
+     */
+    public static Image getAppIcon(){
+        try{
+            GithubDirectoryExtractorApplication.appLogger.info("Chargement d'icône de l'application");
+
+            URL iconUrl = GithubDirectoryExtractorApplication.appResourceLoader.getResource(ResourcesPath.APPLICATION_ICON_PATH.path);
+
+            if(iconUrl == null)
+                throw new Exception();
+
+            return new Image(iconUrl.toString());
+        }
+        catch(Exception e){
+            return null;
+        }
     }
 }
