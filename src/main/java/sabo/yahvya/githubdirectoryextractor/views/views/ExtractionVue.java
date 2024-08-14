@@ -113,7 +113,7 @@ public class ExtractionVue implements AppVue{
         title.getStyleClass().add("extractor-title");
 
         // instructions
-        AppInfoText instructionsComponent = new AppInfoText("Veuillez fournir les liens github des dossiers souhaités.");
+        AppInfoText instructionsComponent = new AppInfoText("Veuillez fournir les liens github des dossiers souhaités. Les liens fournis doivent être publiques.");
 
         // bouton d'ajout
         AppButtonComponent newButtonComponent = new AppButtonComponent("Nouveau dossier");
