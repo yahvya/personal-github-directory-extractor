@@ -13,7 +13,7 @@
 
 .extraction-container .extraction-elements-container{
     -fx-border-color: -fx-theme-special-light-color;
-    -fx-padding: 4px;
+    -fx-padding: 10px;
 }
 
 .extraction-container .extraction-elements-container,
@@ -31,4 +31,16 @@
 
 .extraction-container .app-button-component{
     -fx-font-size: 15px !important;
+}
+
+.extraction-container .extraction-log-line{
+    -fx-font-size: 12px;
+    -fx-font-family: "Open Sans","Arial","sans-serif";
+    -fx-text-fill: -fx-theme-text-color;
+}
+
+.extraction-container .extraction-uri-field{
+    -fx-background-color: -fx-theme-upper-color;
+    -fx-text-fill: -fx-theme-text-color;
+    -fx-font-family: "Roboto Mono ital","Arial","sans-serif";
 }

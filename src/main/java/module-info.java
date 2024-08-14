@@ -11,4 +11,5 @@ module sabo.yahvya.githubdirectoryextractor {
     exports sabo.yahvya.githubdirectoryextractor.views.views;
     exports sabo.yahvya.githubdirectoryextractor.resources.utils;
     exports sabo.yahvya.githubdirectoryextractor.views.components;
+    exports sabo.yahvya.githubdirectoryextractor.utils;
 }
