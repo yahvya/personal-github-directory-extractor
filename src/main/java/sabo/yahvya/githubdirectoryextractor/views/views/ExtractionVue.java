@@ -1,5 +1,6 @@
 package sabo.yahvya.githubdirectoryextractor.views.views;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -11,13 +12,14 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication;
+import sabo.yahvya.githubdirectoryextractor.githubextractor.GithubDirectoryExtractorManager;
 import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourcesPath;
-import sabo.yahvya.githubdirectoryextractor.utils.AppAction;
 import sabo.yahvya.githubdirectoryextractor.views.components.AppButtonComponent;
 import sabo.yahvya.githubdirectoryextractor.views.components.AppInfoText;
 import sabo.yahvya.githubdirectoryextractor.views.components.Component;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -69,11 +71,17 @@ public class ExtractionVue implements AppVue{
      */
     protected HashMap<HBox,String> directoriesMap;
 
+    /**
+     * @brief Gestionnaire d'extraction
+     */
+    protected GithubDirectoryExtractorManager extractorManager;
+
     public ExtractionVue(){
         this.isExtracting = false;
         this.directoryChooser = new DirectoryChooser();
         this.directoriesMap = new HashMap<>();
         this.directoryChooser.setTitle("Destination dossier github");
+        this.extractorManager = null;
     }
 
     @Override
@@ -166,24 +174,16 @@ public class ExtractionVue implements AppVue{
         });
 
         // validation et démarrage d'extraction
-        validationButton.setOnMouseClicked((e) -> {
+        this.validationButton.setOnMouseClicked((e) -> {
             if(this.isExtracting)
                 return;
-
-            this.startExtraction((args) -> {
-                this.isExtracting = false;
-                validationButton.setText("Lancer");
-            });
-
-            this.isExtracting = true;
-            validationButton.setText("Extraction en cours ...");
+            this.startExtraction();
         });
 
         // annulation d'action
         cancelButton.setOnMouseClicked((e) -> {
             if(this.isExtracting){
                 this.stopExtraction();
-                validationButton.setText("Lancer");
                 return;
             }
 
@@ -222,11 +222,14 @@ public class ExtractionVue implements AppVue{
         TextField uriField = new TextField();
         uriField.setPromptText("Entrez le lien du dossier github");
         uriField.getStyleClass().add("extraction-uri-field");
-        uriField.setPrefSize(ExtractionVue.width * 0.65,40);
+        uriField.setPrefSize(ExtractionVue.width * 0.65,45);
 
         // bouton de suppression et choix de dossier
         Button removeButton = (Button) new AppButtonComponent("Retirer").build();
         Button directoryChooserButton = (Button) new AppButtonComponent("Destination").build();
+
+        removeButton.setPrefHeight(43);
+        directoryChooserButton.setPrefHeight(43);
 
         // définition de la ligne
         configurationLine.setAlignment(Pos.CENTER_LEFT);
@@ -269,10 +272,50 @@ public class ExtractionVue implements AppVue{
 
     /**
      * @brief Lance l'extraction
-     * @param onEnd action à exécuter à la fin de l'extraction
      */
-    protected void startExtraction(AppAction onEnd){
+    protected void startExtraction(){
         GithubDirectoryExtractorApplication.appLogger.info("Lancement d'extraction");
+
+        this.isExtracting = true;
+        validationButton.setText("Extraction en cours ...");
+
+        // construction des configurations
+        ArrayList<GithubDirectoryExtractorManager.ExtractionConfig> extractionConfigs = new ArrayList<>();
+
+        this.directoriesMap.forEach((configLine,dirPath) -> {
+            // récupération du lien
+            TextField directoryLinkField = (TextField) configLine.getChildren().getFirst();
+
+            extractionConfigs.add(new GithubDirectoryExtractorManager.ExtractionConfig(
+                directoryLinkField.getText(),
+                dirPath,
+                (args) -> {
+                    // suppression dans l'interface de l'élément extrait
+                    this.toLoadElements.remove(configLine);
+                    this.directoriesMap.remove(configLine);
+                }
+            ));
+
+            System.out.println(directoryLinkField.getText());
+        });
+
+        // lancement de l'extraction
+        this.extractorManager = new GithubDirectoryExtractorManager(
+            extractionConfigs,
+            (args) -> {
+                String logLine = (String) args[0];
+                Platform.runLater(() -> this.logLine.setText(logLine));
+            },
+            (args) -> Platform.runLater(() -> this.logLine.setText("En attente d'action"))
+        );
+
+        try{
+            this.extractorManager.start();
+        }
+        catch(Throwable e){
+            GithubDirectoryExtractorApplication.appLogger.warning("Echec de lancement de l'extracteur");
+            this.stopExtraction();
+        }
     }
 
     /**
@@ -280,6 +323,13 @@ public class ExtractionVue implements AppVue{
      */
     protected void stopExtraction(){
         this.isExtracting = false;
+        this.validationButton.setText("Lancer");
         GithubDirectoryExtractorApplication.appLogger.info("Arrêt demandé d'extraction");
+
+        if(this.extractorManager == null)
+            return;
+
+        this.extractorManager.stopExecution();
+        this.extractorManager = null;
     }
 }
