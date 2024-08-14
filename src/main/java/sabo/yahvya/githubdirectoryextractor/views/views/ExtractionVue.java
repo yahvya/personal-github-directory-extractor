@@ -12,6 +12,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication;
+import sabo.yahvya.githubdirectoryextractor.githubextractor.GithubDirectoryExtractor;
 import sabo.yahvya.githubdirectoryextractor.githubextractor.GithubDirectoryExtractorManager;
 import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourcesPath;
 import sabo.yahvya.githubdirectoryextractor.views.components.AppButtonComponent;
@@ -167,9 +168,6 @@ public class ExtractionVue implements AppVue{
             if(this.isExtracting)
                 return;
 
-            if(this.validationButton.isDisabled())
-                this.validationButton.setDisable(false);
-
             this.addNewConfiguration();
         });
 
@@ -247,7 +245,7 @@ public class ExtractionVue implements AppVue{
             this.toLoadElements.remove(configurationLine);
             this.directoriesMap.remove(configurationLine);
 
-            if(this.toLoadElements.isEmpty())
+            if(this.directoriesMap.isEmpty())
                 this.validationButton.setDisable(true);
         });
 
@@ -265,6 +263,9 @@ public class ExtractionVue implements AppVue{
 
             buttonTooltip.setText(path);
             this.directoriesMap.put(configurationLine,path);
+
+            if(this.validationButton.isDisabled())
+                this.validationButton.setDisable(false);
         });
 
         this.toLoadElements.addFirst(configurationLine);
@@ -280,23 +281,24 @@ public class ExtractionVue implements AppVue{
         validationButton.setText("Extraction en cours ...");
 
         // construction des configurations
-        ArrayList<GithubDirectoryExtractorManager.ExtractionConfig> extractionConfigs = new ArrayList<>();
+        ArrayList<GithubDirectoryExtractor.ExtractionConfig> extractionConfigs = new ArrayList<>();
 
         this.directoriesMap.forEach((configLine,dirPath) -> {
             // récupération du lien
             TextField directoryLinkField = (TextField) configLine.getChildren().getFirst();
+            String githubDirectoryLink = directoryLinkField.getText();
 
-            extractionConfigs.add(new GithubDirectoryExtractorManager.ExtractionConfig(
-                directoryLinkField.getText(),
+            extractionConfigs.add(new GithubDirectoryExtractor.ExtractionConfig(
+                githubDirectoryLink,
                 dirPath,
-                (args) -> {
+                (args) -> Platform.runLater(() -> {
+                    GithubDirectoryExtractorApplication.appLogger.info(String.format("Extraction du lien <%s> faite", githubDirectoryLink));
+
                     // suppression dans l'interface de l'élément extrait
                     this.toLoadElements.remove(configLine);
                     this.directoriesMap.remove(configLine);
-                }
+                })
             ));
-
-            System.out.println(directoryLinkField.getText());
         });
 
         // lancement de l'extraction
@@ -306,7 +308,10 @@ public class ExtractionVue implements AppVue{
                 String logLine = (String) args[0];
                 Platform.runLater(() -> this.logLine.setText(logLine));
             },
-            (args) -> Platform.runLater(() -> this.logLine.setText("En attente d'action"))
+            (args) -> Platform.runLater(() -> {
+                this.logLine.setText("En attente d'action");
+                this.stopExtraction();
+            })
         );
 
         try{
@@ -325,6 +330,9 @@ public class ExtractionVue implements AppVue{
         this.isExtracting = false;
         this.validationButton.setText("Lancer");
         GithubDirectoryExtractorApplication.appLogger.info("Arrêt demandé d'extraction");
+
+        if(this.directoriesMap.isEmpty())
+            this.validationButton.setDisable(true);
 
         if(this.extractorManager == null)
             return;

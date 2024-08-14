@@ -9,7 +9,7 @@ public class GithubDirectoryExtractorManager extends Thread{
     /**
      * @brief Configuration d'extraction
      */
-    protected ArrayList<ExtractionConfig> extractionConfigs;
+    protected ArrayList<GithubDirectoryExtractor.ExtractionConfig> extractionConfigs;
 
     /**
      * @brief Lambda de log
@@ -31,7 +31,7 @@ public class GithubDirectoryExtractorManager extends Thread{
      * @param log fonction de log des évènements
      * @param onEnd fonction de fin d'extraction
      */
-    public GithubDirectoryExtractorManager(ArrayList<ExtractionConfig> extractionConfigs, ExtractionAction log, ExtractionAction onEnd) {
+    public GithubDirectoryExtractorManager(ArrayList<GithubDirectoryExtractor.ExtractionConfig> extractionConfigs, ExtractionAction log, ExtractionAction onEnd) {
         this.extractionConfigs = extractionConfigs;
         this.log = log;
         this.onEnd = onEnd;
@@ -41,6 +41,26 @@ public class GithubDirectoryExtractorManager extends Thread{
     @Override
     public void run() {
         this.log.execute("Lancement de l'extraction");
+
+        // lancement de l'extraction
+        for(GithubDirectoryExtractor.ExtractionConfig extractionConfig : this.extractionConfigs) {
+            // vérification d'arrêt du thread
+            if(this.stop)
+                break;
+
+            this.log.execute(String.format("Lancement d'extraction <%s>",extractionConfig.getDirectoryLink()));
+
+            // extraction de la configuration fournie
+            if(new GithubDirectoryExtractor(this.log,extractionConfig).extract())
+                this.log.execute("Extraction réussi");
+            else
+                this.log.execute("Echec d'extraction");
+
+            extractionConfig.getOnElementExtracted().execute();
+        }
+
+        this.log.execute("Fin de l'extraction");
+        this.onEnd.execute();
     }
 
     /**
@@ -51,55 +71,10 @@ public class GithubDirectoryExtractorManager extends Thread{
     }
 
     /**
-     * @brief Configuration d'une extraction
+     * @return l'utilitaire de log
      */
-    public static class ExtractionConfig{
-        /**
-         * @brief lien du dossier github
-         */
-        protected String directoryLink;
-
-        /**
-         * @brief dossier de destination
-         */
-        protected String destinationBase;
-
-        /**
-         * @brief Action à exécuter à l'extraction de l'élément
-         */
-        protected ExtractionAction onElementExtracted;
-
-        /**
-         * @param directoryLink lien du dossier github
-         * @param destinationBase dossier de destination
-         * @param onElementExtracted Action à exécuter à l'extraction de l'élément
-         */
-        public ExtractionConfig(String directoryLink,String destinationBase,ExtractionAction onElementExtracted){
-            this.directoryLink = directoryLink;
-            this.destinationBase = destinationBase;
-            this.onElementExtracted = onElementExtracted;
-        }
-
-        /**
-         * @return lien du dossier github
-         */
-        public String getDirectoryLink() {
-            return this.directoryLink;
-        }
-
-        /**
-         * @return dossier de destination
-         */
-        public String getDestinationBase() {
-            return this.destinationBase;
-        }
-
-        /**
-         * @return Action à exécuter à l'extraction de l'élément
-         */
-        public ExtractionAction getOnElementExtracted() {
-            return this.onElementExtracted;
-        }
+    public ExtractionAction getLog() {
+        return this.log;
     }
 
     /**
