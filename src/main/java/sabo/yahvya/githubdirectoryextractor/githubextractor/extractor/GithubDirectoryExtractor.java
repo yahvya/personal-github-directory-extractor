@@ -23,24 +23,36 @@ public class GithubDirectoryExtractor {
         this.extractionConfig = extractionConfig;
     }
 
+    /**
+     * @brief Lance l'extraction
+     * @return si l'extraction réussie
+     */
     public boolean extract(){
         // récupération de token de requête
-        this.log.execute("Récupération du token");
-
         final String token = this.getToken();
 
-        if(token == null){
-            this.log.execute("Echec de récupération du token");
+        if(token == null)
             return false;
-        }
-
-        this.log.execute("Token récupéré");
 
         return true;
     }
 
+    /**
+     * @brief Lance la récupération du token de gestion github
+     * @return le token récupéré ou null
+     */
     public String getToken(){
-        return null;
+        try{
+            this.log.execute("Récupération du token");
+            String token;
+
+            this.log.execute("Token récupéré");
+            return token;
+        }
+        catch(Exception e){
+            this.log.execute("Echec de récupération du token");
+            return null;
+        }
     }
 
     /**
