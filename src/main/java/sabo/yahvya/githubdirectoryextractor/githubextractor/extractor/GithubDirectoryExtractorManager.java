@@ -1,4 +1,4 @@
-package sabo.yahvya.githubdirectoryextractor.githubextractor;
+package sabo.yahvya.githubdirectoryextractor.githubextractor.extractor;
 
 import java.util.ArrayList;
 
@@ -51,11 +51,12 @@ public class GithubDirectoryExtractorManager extends Thread{
             this.log.execute(String.format("Lancement d'extraction <%s>",extractionConfig.getDirectoryLink()));
 
             // extraction de la configuration fournie
-            if(new GithubDirectoryExtractor(this.log,extractionConfig).extract())
-                this.log.execute("Extraction réussi");
-            else
-                this.log.execute("Echec d'extraction");
+            if(!new GithubDirectoryExtractor(this.log,extractionConfig).extract()){
+                this.onEnd.execute();
+                return;
+            }
 
+            this.log.execute("Extraction réussi");
             extractionConfig.getOnElementExtracted().execute();
         }
 

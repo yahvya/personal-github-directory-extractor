@@ -1,4 +1,4 @@
-package sabo.yahvya.githubdirectoryextractor.githubextractor;
+package sabo.yahvya.githubdirectoryextractor.githubextractor.extractor;
 
 /**
  * @brief Extracteur de dossier
@@ -24,7 +24,23 @@ public class GithubDirectoryExtractor {
     }
 
     public boolean extract(){
+        // récupération de token de requête
+        this.log.execute("Récupération du token");
+
+        final String token = this.getToken();
+
+        if(token == null){
+            this.log.execute("Echec de récupération du token");
+            return false;
+        }
+
+        this.log.execute("Token récupéré");
+
         return true;
+    }
+
+    public String getToken(){
+        return null;
     }
 
     /**

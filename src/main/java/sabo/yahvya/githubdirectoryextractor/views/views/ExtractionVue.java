@@ -12,8 +12,8 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import sabo.yahvya.githubdirectoryextractor.GithubDirectoryExtractorApplication;
-import sabo.yahvya.githubdirectoryextractor.githubextractor.GithubDirectoryExtractor;
-import sabo.yahvya.githubdirectoryextractor.githubextractor.GithubDirectoryExtractorManager;
+import sabo.yahvya.githubdirectoryextractor.githubextractor.extractor.GithubDirectoryExtractor;
+import sabo.yahvya.githubdirectoryextractor.githubextractor.extractor.GithubDirectoryExtractorManager;
 import sabo.yahvya.githubdirectoryextractor.resources.utils.ResourcesPath;
 import sabo.yahvya.githubdirectoryextractor.views.components.AppButtonComponent;
 import sabo.yahvya.githubdirectoryextractor.views.components.AppInfoText;
@@ -308,10 +308,7 @@ public class ExtractionVue implements AppVue{
                 String logLine = (String) args[0];
                 Platform.runLater(() -> this.logLine.setText(logLine));
             },
-            (args) -> Platform.runLater(() -> {
-                this.logLine.setText("En attente d'action");
-                this.stopExtraction();
-            })
+            (args) -> Platform.runLater(this::stopExtraction)
         );
 
         try{
