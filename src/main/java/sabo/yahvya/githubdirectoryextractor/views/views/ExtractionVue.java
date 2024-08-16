@@ -6,6 +6,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
@@ -146,6 +148,15 @@ public class ExtractionVue implements AppVue{
         // ligne de log
         this.logLine = new Label("En attente d'action");
         this.logLine.getStyleClass().add("extraction-log-line");
+        this.logLine.setTooltip(new Tooltip("Appuyez pour copier"));
+        this.logLine.setOnMouseClicked((e) -> {
+            ClipboardContent content = new ClipboardContent();
+            content.putString(this.logLine.getText());
+
+            Clipboard
+                .getSystemClipboard()
+                .setContent(content);
+        });
 
         // définition de la vue
         container.getChildren().addAll(

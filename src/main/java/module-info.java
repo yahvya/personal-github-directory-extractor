@@ -5,6 +5,7 @@ module sabo.yahvya.githubdirectoryextractor {
     requires com.dlsc.formsfx;
     requires net.synedra.validatorfx;
     requires java.logging;
+    requires java.net.http;
 
     exports sabo.yahvya.githubdirectoryextractor;
     exports sabo.yahvya.githubdirectoryextractor.views.utils;

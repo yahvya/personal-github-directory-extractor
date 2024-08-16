@@ -15,12 +15,18 @@ public class GithubDirectoryExtractor {
     protected ExtractionConfig extractionConfig;
 
     /**
+     * @brief Gestionnaire d'api
+     */
+    protected GithubApi apiManager;
+
+    /**
      * @param log fonction de log
      * @param extractionConfig configuration d'extraction
      */
     public GithubDirectoryExtractor(GithubDirectoryExtractorManager.ExtractionAction log,ExtractionConfig extractionConfig){
         this.log = log;
         this.extractionConfig = extractionConfig;
+        this.apiManager = new GithubApi(log);
     }
 
     /**
@@ -29,30 +35,12 @@ public class GithubDirectoryExtractor {
      */
     public boolean extract(){
         // récupération de token de requête
-        final String token = this.getToken();
+        final String token = this.apiManager.getToken();
 
         if(token == null)
             return false;
 
         return true;
-    }
-
-    /**
-     * @brief Lance la récupération du token de gestion github
-     * @return le token récupéré ou null
-     */
-    public String getToken(){
-        try{
-            this.log.execute("Récupération du token");
-            String token;
-
-            this.log.execute("Token récupéré");
-            return token;
-        }
-        catch(Exception e){
-            this.log.execute("Echec de récupération du token");
-            return null;
-        }
     }
 
     /**
