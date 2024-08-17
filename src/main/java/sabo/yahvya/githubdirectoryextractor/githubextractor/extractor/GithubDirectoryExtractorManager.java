@@ -31,7 +31,7 @@ public class GithubDirectoryExtractorManager extends Thread{
      * @param log fonction de log des évènements
      * @param onEnd fonction de fin d'extraction
      */
-    public GithubDirectoryExtractorManager(ArrayList<GithubDirectoryExtractor.ExtractionConfig> extractionConfigs, ExtractionAction log, ExtractionAction onEnd) {
+    public GithubDirectoryExtractorManager(ArrayList<GithubDirectoryExtractor.ExtractionConfig> extractionConfigs,ExtractionAction log, ExtractionAction onEnd) {
         this.extractionConfigs = extractionConfigs;
         this.log = log;
         this.onEnd = onEnd;
@@ -40,28 +40,34 @@ public class GithubDirectoryExtractorManager extends Thread{
 
     @Override
     public void run() {
-        this.log.execute("Lancement de l'extraction");
+        try{
+            this.log.execute("Lancement de l'extraction");
 
-        // lancement de l'extraction
-        for(GithubDirectoryExtractor.ExtractionConfig extractionConfig : this.extractionConfigs) {
-            // vérification d'arrêt du thread
-            if(this.stop)
-                break;
+            // lancement de l'extraction
+            for(GithubDirectoryExtractor.ExtractionConfig extractionConfig : this.extractionConfigs) {
+                // vérification d'arrêt du thread
+                if(this.stop)
+                    break;
 
-            this.log.execute(String.format("Lancement d'extraction <%s>",extractionConfig.getDirectoryLink()));
+                this.log.execute(String.format("Lancement d'extraction <%s>",extractionConfig.getDirectoryLink()));
 
-            // extraction de la configuration fournie
-            if(!new GithubDirectoryExtractor(this.log,extractionConfig).extract()){
-                this.onEnd.execute();
-                return;
+                // extraction de la configuration fournie
+                if(!new GithubDirectoryExtractor(this.log,extractionConfig).extract()){
+                    this.onEnd.execute();
+                    return;
+                }
+
+                this.log.execute("Extraction réussi");
+                extractionConfig.getOnElementExtracted().execute();
             }
 
-            this.log.execute("Extraction réussi");
-            extractionConfig.getOnElementExtracted().execute();
+            this.log.execute("Fin de l'extraction");
+            this.onEnd.execute();
         }
-
-        this.log.execute("Fin de l'extraction");
-        this.onEnd.execute();
+        catch(Exception ignore){
+            this.log.execute("Une erreur s'est produite lors de l'extraction");
+            this.onEnd.execute();
+        }
     }
 
     /**

@@ -4,6 +4,10 @@
     -fx-background-color: -fx-theme-background-color;
 }
 
+.extraction-container .label{
+    -fx-text-fill: -fx-theme-text-color;
+}
+
 .extraction-container .extractor-title{
     -fx-text-fill: -fx-theme-text-color;
     -fx-font-size: 20px;

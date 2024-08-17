@@ -5,10 +5,9 @@ package sabo.yahvya.githubdirectoryextractor.githubextractor.api;
  */
 public enum GithubApiLinks {
     /**
-     * @brief Lien d'initialisation du flow logiciel bureau
+     * @brief Lien de récupération du contenu d'un repository
      */
-    DEVICE_FLOW_AUTHORIZATION_INIT("https://github.com/login/device/code?client_id={clientId}"),
-
+    GET_REPOSITORY_CONTENT("https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={branch}")
     ;
 
     /**

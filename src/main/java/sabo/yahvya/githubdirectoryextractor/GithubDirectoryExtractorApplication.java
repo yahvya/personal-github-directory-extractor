@@ -15,7 +15,8 @@ import sabo.yahvya.githubdirectoryextractor.views.views.ErrorVue;
 import sabo.yahvya.githubdirectoryextractor.views.views.ExtractionVue;
 
 import java.net.URL;
-import java.util.logging.*;
+import java.util.logging.Handler;
+import java.util.logging.Logger;
 
 /**
  * @brief Application d'extraction

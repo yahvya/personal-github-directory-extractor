@@ -115,7 +115,7 @@ public class ExtractionVue implements AppVue{
         title.getStyleClass().add("extractor-title");
 
         // instructions
-        AppInfoText instructionsComponent = new AppInfoText("Veuillez fournir les liens github des dossiers souhaités. Les liens fournis doivent être publiques.");
+        AppInfoText appInstruction = new AppInfoText("Veuillez fournir les liens github des dossiers souhaités (limité aux repos publiques).");
 
         // bouton d'ajout
         AppButtonComponent newButtonComponent = new AppButtonComponent("Nouveau dossier");
@@ -161,7 +161,7 @@ public class ExtractionVue implements AppVue{
         // définition de la vue
         container.getChildren().addAll(
             title,
-            instructionsComponent.build(),
+            appInstruction.build(),
             newButton,
             elementsContainerScroll,
             buttonsContainer,
@@ -171,7 +171,7 @@ public class ExtractionVue implements AppVue{
         // chargement des styles
         GithubDirectoryExtractorApplication.addGlobalStyles(scene);
         AppVue.addVueRequiredStyles(this,scene);
-        Component.addComponentRequiredStyles(instructionsComponent,scene);
+        Component.addComponentRequiredStyles(appInstruction,scene);
         Component.addComponentRequiredStyles(cancelButtonComponent,scene);
 
         // ajout des évènements
@@ -261,7 +261,7 @@ public class ExtractionVue implements AppVue{
         });
 
         // choix du dossier de destination
-        Tooltip buttonTooltip = new Tooltip("Veuillez choisir un dossier");
+        Tooltip buttonTooltip = new Tooltip("Veuillez choisir un dossier (créez le dossier de destination)");
 
         directoryChooserButton.setTooltip(buttonTooltip);
         directoryChooserButton.setOnMouseClicked((e) -> {

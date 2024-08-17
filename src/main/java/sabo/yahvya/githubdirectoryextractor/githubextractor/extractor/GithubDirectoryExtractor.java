@@ -1,5 +1,9 @@
 package sabo.yahvya.githubdirectoryextractor.githubextractor.extractor;
 
+import sabo.yahvya.githubdirectoryextractor.githubextractor.api.GithubApi;
+
+import java.io.UncheckedIOException;
+
 /**
  * @brief Extracteur de dossier
  */
@@ -22,8 +26,9 @@ public class GithubDirectoryExtractor {
     /**
      * @param log fonction de log
      * @param extractionConfig configuration d'extraction
+     * @throws UncheckedIOException en cas d'échec d'initialisation de l'utilitaire d'api
      */
-    public GithubDirectoryExtractor(GithubDirectoryExtractorManager.ExtractionAction log,ExtractionConfig extractionConfig){
+    public GithubDirectoryExtractor(GithubDirectoryExtractorManager.ExtractionAction log,ExtractionConfig extractionConfig) throws UncheckedIOException {
         this.log = log;
         this.extractionConfig = extractionConfig;
         this.apiManager = new GithubApi(log);
@@ -34,13 +39,7 @@ public class GithubDirectoryExtractor {
      * @return si l'extraction réussie
      */
     public boolean extract(){
-        // récupération de token de requête
-        final String token = this.apiManager.getToken();
-
-        if(token == null)
-            return false;
-
-        return true;
+        return this.apiManager.downloadRepositoryDirectoryContent(this.extractionConfig.directoryLink,this.extractionConfig.destinationBase);
     }
 
     /**
