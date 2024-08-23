@@ -172,7 +172,7 @@ public class GithubApi {
 
     /**
      * @brief Extrait les données de repository à partir du lien (propriétaire dans la clé owner, nom du repository dans la clé repo, la branche dans la clé branch, le chemin dans la clé path)
-     * @brief Regex : .+github.com/([^/]+)/([^/]+)/.*
+     * @brief Regex : .+github.com/([^/]+)/([^/]+)/tree/([^/]+)/(.*)
      * @param link lien
      * @return les données extraites ou null en cas de format non valide
      */

@@ -49,10 +49,6 @@ public class GithubDirectoryExtractorApplication extends Application {
             GithubDirectoryExtractorApplication.appLogger.addHandler(h);
     }
 
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage){
         GithubDirectoryExtractorApplication.appLogger.info("Lancement de l'application");
