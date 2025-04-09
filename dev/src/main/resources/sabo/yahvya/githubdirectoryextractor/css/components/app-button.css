@@ -1,0 +1,11 @@
+.app-button-component{
+    -fx-background-color: -fx-theme-special-color;
+    -fx-text-fill: -fx-theme-text-up-color;
+    -fx-font-size: 16.5px;
+    -fx-cursor: pointer;
+    -fx-font-family: "Roboto","Arial","sans-serif";
+}
+
+.app-button-component:hover{
+    -fx-effect: dropshadow(gaussian,-fx-theme-special-color,20,0.0,0,0);
+}
