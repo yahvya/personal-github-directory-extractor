@@ -1,0 +1,50 @@
+.root{
+    -fx-padding: 20px;
+    -fx-border-color: -fx-theme-special-light-color;
+    -fx-background-color: -fx-theme-background-color;
+}
+
+.extraction-container .label{
+    -fx-text-fill: -fx-theme-text-color;
+}
+
+.extraction-container .extractor-title{
+    -fx-text-fill: -fx-theme-text-color;
+    -fx-font-size: 20px;
+    -fx-font-family: "Roboto","Arial","sans-serif";
+    -fx-font-weight: bold;
+}
+
+.extraction-container .extraction-elements-container{
+    -fx-border-color: -fx-theme-special-light-color;
+    -fx-padding: 10px;
+}
+
+.extraction-container .extraction-elements-container,
+.extraction-container .extraction-elements-container > .viewport{
+    -fx-background-color: -fx-theme-background-color;
+}
+
+.extraction-container .extraction-elements-container .scroll-bar:vertical{
+    -fx-background-color: -fx-theme-upper-color;
+}
+
+.extraction-container .extraction-elements-container .scroll-bar:vertical .thumb {
+    -fx-background-color: -fx-theme-special-color;
+}
+
+.extraction-container .app-button-component{
+    -fx-font-size: 15px !important;
+}
+
+.extraction-container .extraction-log-line{
+    -fx-font-size: 12px;
+    -fx-font-family: "Open Sans","Arial","sans-serif";
+    -fx-text-fill: -fx-theme-text-color;
+}
+
+.extraction-container .extraction-uri-field{
+    -fx-background-color: -fx-theme-upper-color;
+    -fx-text-fill: -fx-theme-text-color;
+    -fx-font-family: "Roboto Mono ital","Arial","sans-serif";
+}
